@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+    db:
+        image: postgres
+        volumes:
+          - ./django_db:/var/lib/postgresql
+        environment:
+          - POSTGRES_DB=django_db
+          - POSTGRES_USER=admin
+          - POSTGRES_PASSWORD=admin
+    web:
+        build: .
+        command: >
+            sh -c 'python manage.py runserver 0.0.0.0:8000'
+        volumes:
+          - .:/blog
+        ports:
+          - "8000:8000"
+        depends_on:
+          - db
+      
+    
